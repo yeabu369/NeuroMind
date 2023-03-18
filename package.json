@@ -1,0 +1,25 @@
+{
+  "name": "neuromind",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeabu369/NeuroMind.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yeabu369/NeuroMind/issues"
+  },
+  "homepage": "https://github.com/yeabu369/NeuroMind#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21"
+  }
+}
