@@ -41,6 +41,16 @@ router.get('/login', async (req, res) => {
   }
 });
 
+router.get('/home', async (req, res) => {
+  try {
+      res.sendFile(path.join(__dirname, '../public', 'home.html'));
+  }
+  catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
 
 
 router.post('/signup', async (req, res) => {
@@ -48,7 +58,7 @@ router.post('/signup', async (req, res) => {
       const { email, password } = req.body;
       console.log(email, password);
   
-      const existingUser = await User.findOne({ eamil });
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(400).send('Username already taken');
       }
@@ -63,6 +73,8 @@ router.post('/signup', async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
 });
+
+
 
 router.post('/login', async (req, res) => {
   try {
@@ -80,7 +92,7 @@ router.post('/login', async (req, res) => {
         return res.status(401).send('Invalid username or password');
       }
   
-      res.sendFile(path.join(__dirname, '../public', 'index.html'));
+      res.sendFile(path.join(__dirname, '../public', 'home.html'));
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -90,3 +102,4 @@ router.post('/login', async (req, res) => {
 
 
 module.exports = router;
+
