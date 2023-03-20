@@ -1,0 +1,115 @@
+body{
+    background-image: url('../images/background.gif');
+    background-repeat: no-repeat;
+    background-color: black;
+    margin: 0%;
+    font-family: 'Poppins', sans-serif;
+    }
+div{
+    margin: 0%;
+    padding: 0%;
+}
+#page{
+    width: 50%;
+    margin-left: 50%;
+    left: 50%; 
+     
+}
+#logo{
+width: 100px;
+height: 100px;
+}
+.upper{
+ width: 50%;
+ float: left;
+
+
+}
+#brand{
+    font-size: 25px;
+    color: #ccc;
+    font-weight: bold;
+    margin-left: 5%;
+    margin-top: 5%;
+    float: left;
+}
+.layout{
+    display: float;   
+}
+#container{
+    float: right;
+    width: 80%; 
+    height: 88%;
+    margin-left: 10%;
+    margin-top: 10%;
+    border-radius: 15px;
+    /* border: 2px solid white; */
+    
+}
+form {
+    padding-left: 10%;
+
+}
+input[type=text],
+input[type=password] {
+    background-color: black;
+    width: 80%;
+    padding: 12px 20px;
+    margin: 3px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 12px;
+}
+
+/* label {
+    font-size: 20px;
+    color: #ccc;
+    padding: top 20px;
+    
+} */
+
+#container h3 {
+    padding-left: 40px;
+    font-size: 30px;
+    color: #ccc;
+    padding-top: 2%;
+    margin-bottom: 15px;
+}
+
+input[type=submit] {
+    width: 80%;
+    background-color: rgb(2, 2, 94);;
+    color: #ccc;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#c1{
+    text-align: center;
+    font-style: italic;
+    font-size: 18px;
+    color: #9c9c9c;
+    font-weight: bolder;
+
+}
+
+a {
+    color: #ccc;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration-color: white;
+
+}
+.description{
+    text-align: left;
+    font-size: 20px;
+    color: #ccc;
+    font-weight: bold;
+    margin-left: 5%;
+    margin-top: 70%;
+    margin-bottom: 10%;
+}
