@@ -1,70 +1,226 @@
 body{
+    background-image: url('../images/background.gif');
+    background-repeat: no-repeat;
+    background-color: black;
     margin: 0%;
-    background-color: rgb(131, 129, 128);
-    font-family: poppins;
-}
-#mainImg{
-    height: 100vh;
-    float: right;
-}
-#imageContainer{
-    position: absolute;
-    left: 60%;
-    
-}
-
-#page{
-     width: 50%;
-     position: absolute;
-}
-#description{
+    font-family: 'Roboto', sans-serif;}
+#page {
+    width: 40%;
+    margin-top: 10%;
+    left: 50%;
+    color: #ccc;
     text-align: center;
-    color: rgb(231, 231, 231);;
-    font-size: 40px;
-    margin-top: 25%;
-    margin-left: 15%;
-    padding-top: 10%;
-    padding-bottom: 20%;
+    padding: 5%;
+    position: relative;
     
+
 }
-#getStarted{
-    position: absolute;
-    top: 85%;
-    color: rgb(255, 102, 13);
+#brand{
+    font-size: 25px;
+    color: #ccc;
     font-weight: bold;
-    font-size: 20px;
-    left: 52%;
-    width: 300px;
-    height: 50px;
-    transform: translate(-50%, -50%);
-    background-color: rgb(231, 231, 231);
-    border-radius: 25px;
-    border: none;
-    /* border: 1px solid rgb(255, 102, 13); */
-}
-#login{
-    position: absolute;
-    color: rgb(255, 102, 13);
-    font-size: 20px;
-    top: 100%;
-    left: 52%;
-    font-weight: bold;
-    width: 300px;
-    height: 50px;
-    transform: translate(-50%, -50%);
-    background-color: rgb(231, 231, 231);
-    border-radius: 25px;
-    border: none;
-    /* border: 1px solid rgb(255, 102, 13); */
-}
-#logo{
-    position: absolute;
-    top: 0%;
-    left: 30%;
-    width: 50px;
-    height: 100px;
-    color:white;
-    font-weight: bold;
-    font-size: 70px;
+    float: right;
+    margin-top: 5%;
    
 }
+.logo{
+    width: 200px;
+    margin-left: 5%;
+    margin-top: 5%;
+    display: inline-block;
+}
+#upper{
+    width: 50%;
+    height: 200px;
+    float: right;
+    margin-left: 50%;
+    left: 50%;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    margin-right: 5%;
+    margin-top: 2%;
+    margin-left: 5%;
+   
+    display: flex;
+    }
+button {
+    margin: 0% 5%;
+    width: 165px;
+    height: 62px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 1rem;
+    border: none;
+    position: relative;
+    background: #100720;
+    transition: 0.1s;
+}
+
+button::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle farthest-corner at 10% 20%, rgb(2, 2, 94) 17.8%, rgba(2, 245, 255, 1) 100.2%);
+    filter: blur(15px);
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+button:active {
+    transform: scale(0.9) rotate(3deg);
+    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
+    transition: 0.5s;
+}
+
+
+@keyframes square-animation {
+    0% {
+        left: 0;
+        top: 0;
+    }
+
+    10.5% {
+        left: 0;
+        top: 0;
+    }
+
+    12.5% {
+        left: 16px;
+        top: 0;
+    }
+
+    23% {
+        left: 16px;
+        top: 0;
+    }
+
+    25% {
+        left: 32px;
+        top: 0;
+    }
+
+    35.5% {
+        left: 32px;
+        top: 0;
+    }
+
+    37.5% {
+        left: 32px;
+        top: 32px;
+    }
+
+    48% {
+        left: 32px;
+        top: 32px;
+    }
+
+    50% {
+        left: 16px;
+        top: 32px;
+    }
+
+    60.5% {
+        left: 16px;
+        top: 32px;
+    }
+
+    62.5% {
+        left: 16px;
+        top: 32px;
+    }
+
+    73% {
+        left: 16px;
+        top: 32px;
+    }
+
+    75% {
+        left: 0;
+        top: 32px;
+    }
+
+    85.5% {
+        left: 0;
+        top: 16px;
+    }
+
+    87.5% {
+        left: 0;
+        top: 16px;
+    }
+
+    98% {
+        left: 0;
+        top: 16px;
+    }
+
+    100% {
+        left: 0;
+        top: 0;
+    }
+}
+
+.loader {
+    position: relative;
+    margin: 3% 5%;
+    width: 26px;
+    height: 26px;
+    transform: rotate(45deg);
+    float: left;
+}
+
+.loader-square {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    border-radius: 0px;
+    background: #ccc;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: square-animation 10s ease-in-out infinite both;
+}
+
+.loader-square:nth-of-type(0) {
+    animation-delay: 0s;
+}
+
+.loader-square:nth-of-type(1) {
+    animation-delay: -1.4285714286s;
+}
+
+.loader-square:nth-of-type(2) {
+    animation-delay: -2.8571428571s;
+}
+
+.loader-square:nth-of-type(3) {
+    animation-delay: -4.2857142857s;
+}
+
+.loader-square:nth-of-type(4) {
+    animation-delay: -5.7142857143s;
+}
+
+.loader-square:nth-of-type(5) {
+    animation-delay: -7.1428571429s;
+}
+
+.loader-square:nth-of-type(6) {
+    animation-delay: -8.5714285714s;
+}
+
+.loader-square:nth-of-type(7) {
+    animation-delay: -10s;
+}
+
+ @media screen {
+ 
+
+ }
