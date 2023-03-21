@@ -16,7 +16,7 @@ router.use(express.json());
 
 router.get('/', async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public', 'landing.html'));
+      res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
   }
   catch (error) {
       console.error(error);
@@ -24,6 +24,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+router.get('/login', async (req, res) => {
+  try {
+      res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
+  }
+  catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+router.get('/signup', async (req, res) => {
+  try {
+      res.sendFile(path.join(__dirname, '../public/html', 'signup.html'));
+  }
+  catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -55,13 +75,14 @@ const authMiddleware = async (req, res, next) => {
 
 router.get('/home',authMiddleware, async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public', 'home.html'));
+      res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
   }
   catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
   }
 });
+
 
 router.post('/signup', async (req, res) => {
   try {
@@ -76,8 +97,7 @@ router.post('/signup', async (req, res) => {
       const newUser = new User({ name,email, password: hashedPassword });
       await newUser.save();
       
-      res.send("Succesfully registered!!");
-      res.sendFile(path.join(__dirname, '../public', 'login.html'));
+      res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -100,16 +120,29 @@ router.post('/login', async (req, res) => {
       }
       const result = user.toObject();
       delete result.password;
-    
-      const token = jwt.sign(result, SECRET_KEY)
-      // console.log("token => " + token)
-        res.cookie("authorization", "Beaer "+token)
-        res.sendFile(path.join(__dirname, '../public', 'home.html'));
+
+      const token = jwt.sign(result, SECRET_KEY, { expiresIn: '1h'})
+     
+        res.cookie("authorization", token, { httpOnly: true })
+        res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
  
 });
+
+router.post('/logout', async (req, res) => {
+  try {
+        res.cookie("authorization", false )
+        res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+ 
+});
+
+
 
 module.exports = router;
