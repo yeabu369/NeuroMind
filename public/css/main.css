@@ -14,7 +14,7 @@ div{
     margin: 0%;
     padding: 0%;
 }
-.rectangle1 {
+.sidebar {
     background-color: #1e2324;
     height: 100%;
     width: 70px;
@@ -49,12 +49,19 @@ a{
 }
 .message{
     width:70%;
-    height: 70px;
+    height: 60px;
     background-color: #1e2324;
     position:fixed;
     top:82%;
     left:20%;
     border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #C0BEBE;
+    text-align: left;
+    padding: 10px;
+    padding-right: 0%;
+    font-size: 18px;
 }
 #send{
     color:#C0BEBE;

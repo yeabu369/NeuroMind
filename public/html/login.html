@@ -6,6 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroMind</title>
     <link rel="stylesheet" href="..\css\login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      //message if password and email are not correct / if user does not exist
+      $(document).ready(function(){
+        $('input[type="submit"]').click(function(e){
+          var email = $('input[name="email"]').val();
+          var password = $('input[name="password"]').val();
+          if(email == "" || password == ""){
+            e.preventDefault();
+            $('#message').html('Please fill all fields').css('color','red');
+          }
+        });
+
+        //q: message is the user does not exist in the database
+        //q: message if password is incorrect
+        //q: message if email is incorrect
+        //q: message if email and password are incorrect
+        //a:
+      
+      });
+
+    </script>
 </head>
 <body>
    <div class="layout">
@@ -39,7 +61,7 @@
             <br/>
             <input type="text" name="password" placeholder="Password">
             <br/>
-            <br/>
+            <div id="message"></div>
            
             <input type="submit" value="login">
         </form>

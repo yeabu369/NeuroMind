@@ -18,6 +18,11 @@ div{
     left: 50%; 
      
 }
+#message{
+    margin-left: 5px ;
+    margin-top: 5px;
+    color:red;
+}
 .logo{
 width: 100px;
 height: 100px;
@@ -79,6 +84,7 @@ input[type=password]::after {
 }
 
 input[type=submit] {
+    margin-top: 20px;
     width: 80%;
     background-color: rgb(2, 2, 94);
     color: #ccc;

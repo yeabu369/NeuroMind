@@ -6,8 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroMind</title>
     <link rel="stylesheet" href="../css/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+         $(document).ready(function(){
+              $('input[type="password"]').keyup(function(){
+                if($('input[type="password"]').val().length < 8){
+                     $('#message').html('Password must be at least 8 characters').css('color','red');
+                }
+                else{
+                     $('#message').html('Password is strong').css('color','green');
+                }
+              });
+
+                $('input[type="submit"]').click(function(e){
+                    var password = $('input[name="password"]').val();
+                    var confirmPassword = $('input[name="confirmPassword"]').val();
+                    if(password != confirmPassword){
+                         e.preventDefault();
+                         $('#message').html('Passwords do not match').css('color','red');
+                    }
+                });
+
+                $('input[type="text"]').focus(function(){
+                     $(this).css('border','2px solid #00b4d8');
+                });
+
+           
+                $('input[type="submit"]').click(function(e){
+                     var name = $('input[name="name"]').val();
+                     var email = $('input[name="email"]').val();
+                     var password = $('input[name="password"]').val();
+                     var confirmPassword = $('input[name="confirmPassword"]').val();
+                     if(name == "" || email == "" || password == "" || confirmPassword == ""){
+                          e.preventDefault();
+                          $('#message').html('Please fill all fields').css('color','red');
+                     }
+                });
     
-    
+            
+     
+
+            });
+   </script>
 </head>
 <body>
     <div class="layout">
@@ -30,7 +70,7 @@
         
         <div id="container">
         <h3>Signup</h3>
-        <form action="/signup" method="POST" onsubmit="return checkPasswords()">
+        <form action="/signup" method="POST">
             <label for="name">Name</label>
             <br/>
             <input type="text" name="name" placeholder="Name">
@@ -50,7 +90,7 @@
             <br/>
             <input type="password" name="confirmPassword" placeholder="Confirm Password">
             <br/>
-            <br/>
+            <div id="message"></div>
             <input type="submit" value="Signup">
         </form>
         <p id="c1">Already have an account? <a href="/login">Login</a></p>
