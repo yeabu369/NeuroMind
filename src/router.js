@@ -90,7 +90,7 @@ router.post('/signup', async (req, res) => {
   
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).send('Username already taken');
+        return res.status(400).sendFile(path.join(__dirname, '../public/html', 'signup.html'));
       }
   
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -111,12 +111,13 @@ router.post('/login', async (req, res) => {
       // Check if user exists
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(401).send('Invalid username or password');
+        return res.status(401).render('signup', { errorMessage: 'Email already exists' });
+       // return res.status(401).sendFile(path.join(__dirname, '../public/html', 'login.html'));
       }
       // Check if password is correct
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return res.status(401).send('Invalid username or password');
+        return res.status(401).sendFile(path.join(__dirname, '../public/html', 'login.html'));
       }
       const result = user.toObject();
       delete result.password;
