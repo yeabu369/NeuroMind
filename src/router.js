@@ -1,18 +1,22 @@
 const express= require('express');
-const router = express.Router();
-
 const path = require('path');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken")
+const cookieParser = require("cookie-parser");
+
+
+require('dotenv').config();
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const User = require('../models/user');
 
+const router = express.Router();
 
+router.use(express.json());
 
 router.get('/', async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public', 'index.html'));
+      res.sendFile(path.join(__dirname, '../public', 'landing.html'));
   }
   catch (error) {
       console.error(error);
@@ -21,27 +25,35 @@ router.get('/', async (req, res) => {
 });
 
 
-router.get('/signup', async (req, res) => {
+const authMiddleware = async (req, res, next) => {
   try {
-      res.sendFile(path.join(__dirname, '../public', 'signup.html'));
-  }
-  catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-  }
-});
+    // Get the authorization header
+    const authHeader = req.headers.authorization;
 
-router.get('/login', async (req, res) => {
-  try {
-      res.sendFile(path.join(__dirname, '../public', 'login.html'));
-  }
-  catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-  }
-});
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send('Unauthorized');
+    }
 
-router.get('/home', async (req, res) => {
+    // Split the authorization header to get the token
+    const [_, token] = authHeader.split(' ');
+
+    // Verify the token
+    const decoded = jwt.verify(token, SECRET_KEY);
+
+    // Add the user object to the request object
+    req.user = decoded;
+
+    // Call the next middleware function
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(401).send('Unauthorized');
+  }
+};
+
+
+router.get('/home',authMiddleware, async (req, res) => {
   try {
       res.sendFile(path.join(__dirname, '../public', 'home.html'));
   }
@@ -51,12 +63,9 @@ router.get('/home', async (req, res) => {
   }
 });
 
-
-
 router.post('/signup', async (req, res) => {
   try {
-      const { email, password } = req.body;
-      console.log(email, password);
+      const { email, password, name } = req.body;
   
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -64,17 +73,16 @@ router.post('/signup', async (req, res) => {
       }
   
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ email, password: hashedPassword });
+      const newUser = new User({ name,email, password: hashedPassword });
       await newUser.save();
-  
-      res.send('User created successfully');
+      
+      res.send("Succesfully registered!!");
+      res.sendFile(path.join(__dirname, '../public', 'login.html'));
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
 });
-
-
 
 router.post('/login', async (req, res) => {
   try {
@@ -85,14 +93,18 @@ router.post('/login', async (req, res) => {
       if (!user) {
         return res.status(401).send('Invalid username or password');
       }
-  
       // Check if password is correct
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         return res.status(401).send('Invalid username or password');
       }
-  
-      res.sendFile(path.join(__dirname, '../public', 'home.html'));
+      const result = user.toObject();
+      delete result.password;
+    
+      const token = jwt.sign(result, SECRET_KEY)
+      // console.log("token => " + token)
+        res.cookie("authorization", "Beaer "+token)
+        res.sendFile(path.join(__dirname, '../public', 'home.html'));
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -100,6 +112,4 @@ router.post('/login', async (req, res) => {
  
 });
 
-
 module.exports = router;
-
