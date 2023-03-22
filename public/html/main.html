@@ -10,7 +10,7 @@
      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
      <script src="https://kit.fontawesome.com/53b462b57f.js" crossorigin="anonymous"></script>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-     
+     <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 
      <script>
           function generatePrompt() {
@@ -25,9 +25,18 @@
                          console.log(response);
                          // append the response.result before the textfield
                          let div = document.createElement("div");
+                         let input = document.createElement("input");
+                         input.setAttribute("type", "button");
+                         input.setAttribute("value", "🔊 Play");
+                         input.onclick = function () {
+                              responsiveVoice.speak(response.result);
+                         }
+                         
                          div.innerHTML = response.result;
                          div.classList.add("border", "w-full", "prompt-box", "response");
-                         document.querySelector("#prompt-box").prepend(div);
+                         document.querySelector("#prompt-box").append(div);
+                         div.append(input);
+                         
                     }
                });
           }
@@ -35,15 +44,16 @@
 </head>
 
 <body>
-     <nav class="sidebar border">
+     <nav class="border sidebar">
 
      </nav>
 
      <section id="prompt-box" class="container">
-          <div class="border w-full prompt-box">
+          <div class="w-full prompt-box">
                <textarea name="prompt" id="prompt" cols="100" rows="4" placeholder="Anything here ..."></textarea>
                <button onclick="generatePrompt();">Send</button>
           </div>
+          <!-- <input onclick="responsiveVoice.speak('This is the text you want to speak');" type='button' value='🔊 Play' /> -->
      </section>
 
 
