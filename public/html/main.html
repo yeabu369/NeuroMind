@@ -1,56 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/main.css">
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   <script src="https://kit.fontawesome.com/53b462b57f.js" crossorigin="anonymous"></script>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <link rel="stylesheet" href="../css/main.css">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+     <script src="https://kit.fontawesome.com/53b462b57f.js" crossorigin="anonymous"></script>
 
 </head>
-<body>
-    
-     
 
+<body>
      <nav class="rectangle1">
-     <div class="iconContainer1">
-     <i class="material-icons">chat</i>
+          <div class="iconContainer1">
+               <i class="material-icons">chat</i>
+          </div>
+
+          <div class="iconContainer2">
+
+               <i class="material-icons">delete</i>
+               <br />
+               <i class="material-icons">update</i>
+               <br />
+               <a href="about.html">
+                    <i class="material-icons">info</i></a>
+               <br>
+               <form action="/logout" method="post">
+                    <i class="material-icons"><input type="button" value="logout"></i></a>
+               </form>
+          </div>
+     </nav>
+
+     <div class="container">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
      </div>
 
-     <div class="iconContainer2" >
-     
-     <i class="material-icons">delete</i>
-     <br/> 
-     <i class="material-icons">update</i>   
-     <br/>
-     <a href="about.html">
-     <i class="material-icons">info</i></a>
-     <br>
-     <form action="/logout" method="post">
-     <i class="material-icons"><input type="button" value="logout"></i></a>
-     </form>
-     </div>  
-</nav>
+     <div class="response">
+          <i class="fa-solid fa-circle-play fa-2x" id="play"></i>
+          <i class="material-icons" id="wave">wave</i>
+          <!-- <i class="material-icons" id="play">play_circle</i> -->
+     </div>
+     <div class="message">
+          <a><i class="material-icons" id="send">send</i></a>
+     </div>
 
- <div class="container">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-    
-    <div class="response">
-     <i class="fa-solid fa-circle-play fa-2x" id="play"></i>
-     <i class="material-icons"id="wave">wave</i>
-      <!-- <i class="material-icons" id="play">play_circle</i> -->
-    </div>
-    <div class="message">
-     <a><i class="material-icons" id="send">send</i></a> 
-     
-    </div>
-    
-     <i class="material-icons"id="wave">wave</i>
+     <i class="material-icons" id="wave">wave</i>
 </body>
+
 </html>
