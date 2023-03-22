@@ -10,21 +10,26 @@
 </head>
 <body>
     <div class="layout">
-        <div class="upper">
-            <!-- <img src="" alt="brain" id="logo"> -->
-            <h1 id="brand">NeuroMind</h1>
-            <div class="description">
-           
-         
-        </div>
-        </div>
+                <div class="logo">
+  <h1 id="brand">NeuroMind</h1>
+  
+  <div class="loader">
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+</div>
+</div>
         
     
     <div id="page">
         
         <div id="container">
         <h3>Signup</h3>
-        <form>
+        <form action="/signup" method="POST">
             <label for="name">Name</label>
             <br/>
             <input type="text" name="name" placeholder="Name">
@@ -32,17 +37,17 @@
             <br/>
             <label for="email">Email</label>
             <br/>
-            <input type="text" name="email" placeholder="Email">
+            <input type="email" name="email" placeholder="Email">
             <br/>
             <br/>
             <label for="password">Password</label>
             <br/>
-            <input type="text" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password">
             <br/>
             <br/>
             <label for="confirmPassword">Confirm Password</label>
             <br/>
-            <input type="text" name="confirmPassword" placeholder="Confirm Password">
+            <input type="password" name="confirmPassword" placeholder="Confirm Password">
             <br/>
             <br/>
             <input type="submit" value="Signup">
