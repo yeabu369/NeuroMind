@@ -4,6 +4,7 @@ body {
   height: 100vh;
   display: grid;
   grid-template-columns: 70px 1fr;
+  background-color: #333;
 }
 
 .border {
@@ -32,12 +33,14 @@ body {
   background-color: #1e2324;
   border-radius: 10px;
   color: #fff;
-  margin-bottom: 1.25rem;
+  margin: 1.25rem 0;
+  padding: 0.75rem;
 }
 
 .prompt-box {
+  border: 1px solid #333;
+  border-radius: 10px;
   display: flex;
-  padding-bottom: 3.75rem;
 }
 
 section > div:first-child {
@@ -47,6 +50,16 @@ section > div:first-child {
 }
 
 textarea {
+  background-color: #1e2324;
+  color: #fff;
   width: 100%;
   resize: none;
+  border: none;
 }
+
+/* 
+TODO
+- Remove the border from the textarea
+- Add a border to the prompt box
+- Remove border from send button
+*/

@@ -28,12 +28,15 @@
                          let input = document.createElement("input");
                          input.setAttribute("type", "button");
                          input.setAttribute("value", "🔊 Play");
+                         input.style.backgroundColor = "#333";
+                         input.style.color = "#fff";
+                         
                          input.onclick = function () {
                               responsiveVoice.speak(response.result);
                          }
                          
                          div.innerHTML = response.result;
-                         div.classList.add("border", "w-full", "prompt-box", "response");
+                         div.classList.add("border", "w-full", "response");
                          document.querySelector("#prompt-box").append(div);
                          div.append(input);
                          
@@ -53,7 +56,6 @@
                <textarea name="prompt" id="prompt" cols="100" rows="4" placeholder="Anything here ..."></textarea>
                <button onclick="generatePrompt();">Send</button>
           </div>
-          <!-- <input onclick="responsiveVoice.speak('This is the text you want to speak');" type='button' value='🔊 Play' /> -->
      </section>
 
 
