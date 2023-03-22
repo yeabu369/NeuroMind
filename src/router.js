@@ -3,12 +3,18 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
 const cookieParser = require("cookie-parser");
-
+const User = require('../models/user');
+const { Configuration, OpenAIApi } = require("openai");
 
 require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 
-const User = require('../models/user');
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const openai = new OpenAIApi(configuration);
+
 
 const router = express.Router();
 
@@ -147,6 +153,37 @@ router.post('/logout', async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
  
+});
+
+router.post('/generate', async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: prompt,
+        },
+      ],
+    });
+
+    console.log(completion.data.choices[0].text);
+
+    res.status(200).json({ result: completion.data.choices[0].message.content });
+  } catch (error) {
+    if (error.response) {
+      console.error(error.response.status, error.response.data);
+      res.status(error.response.status).json(error.response.data);
+    } else {
+      console.error(`Error with OpenAI API request: ${error.message}`);
+      res.status(500).json({
+        error: {
+          message: 'An error occurred during your request.',
+        }
+      });
+    }
+  }
 });
 
 module.exports = router;
