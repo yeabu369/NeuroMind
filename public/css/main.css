@@ -12,12 +12,9 @@ body {
 
 .container {
   display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: end;
+  flex-direction: column; 
   height: 100%;
   padding: 0 6.25rem;
-  overflow: hidden;
 }
 
 .w-full {
@@ -35,6 +32,7 @@ body {
   background-color: #1e2324;
   border-radius: 10px;
   color: #fff;
+  margin-bottom: 1.25rem;
 }
 
 .prompt-box {
@@ -42,6 +40,13 @@ body {
   padding-bottom: 3.75rem;
 }
 
+section > div:first-child {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
 textarea {
   width: 100%;
+  resize: none;
 }
