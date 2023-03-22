@@ -1,43 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroMind</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    <link rel="stylesheet" href="../css/landing.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroMind</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../css/landing.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+    }
+
+    h3 {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      text-align: center;
+      color: #fff;
+      font-size: 4rem;
+      font-weight: 700;
+    }
+    
+    h4 {
+      padding: 0 10%;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #fff;
+    }
+
+    .border {
+      border: 1px solid #fff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      height: 10vh;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 20%;
+    }
+  </style>
 
 </head>
+
 <body>
-  <div class="logo">
-  <h1 id="brand">NeuroMind</h1>
-  
-  <div class="loader">
-<div class="loader-square"></div>
-<div class="loader-square"></div>
-<div class="loader-square"></div>
-<div class="loader-square"></div>
-<div class="loader-square"></div>
-<div class="loader-square"></div>
-<div class="loader-square"></div>
-</div>
-</div>
- <div id="upper">
-  <form action="/signup" method="GET">
-   <button> Signup</button>
-  </form>
-  <form action="/login" method="GET">
-   <button > Login</button>
-  </form>
-  
- </div>
- <div id="page">
-  <h1>Powerful AI </h1>
-  <h3>that provides voice reply to text inquires.</h3>
-  
- </div>
-   
+  <header class="header">
+    <div class="logo">
+      <h1 id="brand">NeuroMind</h1>
+      <div class="loader">
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+      </div>
+    </div>
+    <div id="upper">
+      <a href="/signup" id="signup">Signup</a>
+      <a href="/login">Login</a>
+    </div>
+  </header>
+  <div id="page">
+    <h3>
+      Transforms written words into spoken wonders.
+    </h3>
+    <h4>
+      Let our AI tool convert your ideas into captivating
+      speech. Stay
+      ahead of the game with effortless communication!
+    </h4>
+  </div>
+
 </body>
+
 </html>
