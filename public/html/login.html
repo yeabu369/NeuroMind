@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="..\css\login.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      //message if password and email are not correct / if user does not exist
+    
+      
       $(document).ready(function(){
         $('input[type="submit"]').click(function(e){
           var email = $('input[name="email"]').val();
@@ -19,13 +20,43 @@
           }
         });
 
-        //q: message is the user does not exist in the database
-        //q: message if password is incorrect
-        //q: message if email is incorrect
-        //q: message if email and password are incorrect
-        //a:
+       
+
+
+
+         $('#login-form').submit(function(e) {
+         e.preventDefault();
+         const username = $('input[name="email"]').val();
+         const password = $('input[name="password"]').val();
+          $.ajax({
+        url: '/login',
+        type: 'POST',
+        data: {
+          email: username,
+          password: password,
+        },
+       
+        success: function(response) {
+      // If login is successful, redirect to the dashboard
+          if (response.message === 'Login successful') {
+        // Redirect the user to the main server page
+           
+            window.location.href = '/home';
+            
+        
+      }
+          else{
+            $('#message').text(response.message).css('color','red');
+          }
+        },
+        error: function () {
+            $('#message').text('Internal server error');
+    },
+  });
+});
       
       });
+
 
     </script>
 </head>
@@ -50,7 +81,7 @@
         
         <div id="container">
         <h3>Login</h3>
-        <form action="/login" method="POST">
+        <form id="login-form">
            
             <label for="email">Email</label>
             <br/>
@@ -61,9 +92,9 @@
             <br/>
             <input type="text" name="password" placeholder="Password">
             <br/>
-            <div id="message"></div>
+            <p id="message"></p>
            
-            <input type="submit" value="login">
+            <input type="submit" value="login" name="login">
         </form>
         
         <p id="c1">create an account?<a href="/signup">signup</a></p>

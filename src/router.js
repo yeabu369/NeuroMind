@@ -73,7 +73,7 @@ const authMiddleware = async (req, res, next) => {
 };
 
 
-router.get('/home',authMiddleware, async (req, res) => {
+router.get('/home', async (req, res) => {
   try {
       res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
   }
@@ -92,6 +92,7 @@ router.post('/signup', async (req, res) => {
       if (existingUser) {
         return res.status(400).send('Username already taken');
       }
+
   
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new User({ name,email, password: hashedPassword });
@@ -107,24 +108,29 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
       const { email, password } = req.body;
-  
+       
       // Check if user exists
       const user = await User.findOne({ email });
+      const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!user) {
-        return res.status(401).send('Invalid username or password');
+    
+       res.json({ success: false, message: 'User does not exist' });
+      return;
       }
       // Check if password is correct
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return res.status(401).send('Invalid username or password');
+       if (!isPasswordValid) { 
+       res.json({ success: false, message: 'Incorrect password' });
+      return;
       }
+        
+        
       const result = user.toObject();
       delete result.password;
 
       const token = jwt.sign(result, SECRET_KEY, { expiresIn: '1h'})
      
         res.cookie("authorization", token, { httpOnly: true })
-        res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
+       res.json({ success: true, message: 'Login successful' })
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
