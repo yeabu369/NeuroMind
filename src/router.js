@@ -59,38 +59,33 @@ router.get('/signup', async (req, res) => {
   }
 });
 
-const authMiddleware = async (req, res, next) => {
-  try {
-    // Get the authorization header
-    const authHeader = req.headers.authorization;
 
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send('Unauthorized');
-    }
+const checkAuth = (req, res, next) => {
+  
+  if (req.cookies && req.cookies.authorization) {
 
-    // Split the authorization header to get the token
-    const [_, token] = authHeader.split(' ');
-
-    // Verify the token
-    const decoded = jwt.verify(token, SECRET_KEY);
-
-    // Add the user object to the request object
-    req.user = decoded;
-
-    // Call the next middleware function
-    next();
-  } catch (error) {
-    console.error(error);
-    res.status(401).send('Unauthorized');
+  const token = req.cookies.authorization;
+  if (!token) {
+    return res.redirect('/login');
   }
+  try {
+    const decodedToken = jwt.verify(token, SECRET_KEY);
+    req.user = decodedToken;
+    next();
+  } catch (err) {
+    return res.redirect('/login');
+  }}
+  else {
+    return res.status(401).redirect('/login');
+    
+  }
+
 };
 
-
-router.get('/home', async (req, res) => {
+router.get('/home',checkAuth, async (req, res) => {
   try {
     hitcount.home += 1;
-    res.cookie("hitcount", hitcount)
+     res.cookie("hitcount", hitcount )
     res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
   }
   catch (error) {
@@ -100,13 +95,15 @@ router.get('/home', async (req, res) => {
 });
 
 
+
+
 router.post('/signup', async (req, res) => {
   try {
     const { email, password, name } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).send('Username already taken');
+      return res.status(400).sendFile(path.join(__dirname, '../public/html', 'signup.html'));
     }
 
 
@@ -125,17 +122,20 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
-    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!user) {
+      res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
 
-      res.json({ success: false, message: 'User does not exist' });
+      //res.json({ success: false, message: 'User does not exist' });
       return;
     }
-    // Check if password is correct
+
+     const isPasswordValid = await bcrypt.compare(password, user.password);
+   
     if (!isPasswordValid) {
-      res.json({ success: false, message: 'Incorrect password' });
+      res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
+ 
+     // res.json({ success: false, message: 'Incorrect password' });
       return;
     }
 
@@ -146,7 +146,9 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(result, SECRET_KEY, { expiresIn: '1h' })
 
     res.cookie("authorization", token, { httpOnly: true })
-    res.json({ success: true, message: 'Login successful' })
+    res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
+ 
+ //   res.json({ success: true, message: 'Login successful' })
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

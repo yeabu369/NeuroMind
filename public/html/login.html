@@ -18,41 +18,36 @@
             e.preventDefault();
             $('#message').html('Please fill all fields').css('color','red');
           }
-        });
 
+//          $('#login-form').submit(function(e) {
+//          e.preventDefault();
+//          const username = $('input[name="email"]').val();
+//          const password = $('input[name="password"]').val();
+//           $.ajax({
+//         url: '/login',
+//         type: 'POST',
+//         data: {
+//           email: username,
+//           password: password,
+//         },
        
-
-
-
-         $('#login-form').submit(function(e) {
-         e.preventDefault();
-         const username = $('input[name="email"]').val();
-         const password = $('input[name="password"]').val();
-          $.ajax({
-        url: '/login',
-        type: 'POST',
-        data: {
-          email: username,
-          password: password,
-        },
-       
-        success: function(response) {
-      // If login is successful, redirect to the dashboard
-          if (response.message === 'Login successful') {
-        // Redirect the user to the main server page
+//         success: function(response) {
+//       // If login is successful, redirect to the dashboard
+//           if (response.message === 'Login successful') {
+//         // Redirect the user to the main server page
            
-            window.location.href = '/home';
+//             window.location.href = '/home';
             
         
-      }
-          else{
-            $('#message').text(response.message).css('color','red');
-          }
-        },
-        error: function () {
-            $('#message').text('Internal server error');
-    },
-  });
+//       }
+//           else{
+//             $('#message').text(response.message).css('color','red');
+//           }
+//         },
+//         error: function () {
+//             $('#message').text('Internal server error');
+//     },
+//   });
 });
       
       });
@@ -81,7 +76,7 @@
         
         <div id="container">
         <h3>Login</h3>
-        <form id="login-form">
+        <form id="login-form" action="/login" method="post">
            
             <label for="email">Email</label>
             <br/>
