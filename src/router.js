@@ -1,4 +1,4 @@
-const express= require('express');
+const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
@@ -18,36 +18,44 @@ const openai = new OpenAIApi(configuration);
 
 const router = express.Router();
 
+const hitcount = {
+  home: 0,
+  landing: 0,
+  generate: 0,
+}
+
 router.use(express.json());
 
 router.get('/', async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
+    hitcount.landing += 1;
+    res.cookie("hitcount", hitcount)
+    res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
   }
   catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
 
 router.get('/login', async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
+    res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
   }
   catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
 router.get('/signup', async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public/html', 'signup.html'));
+    res.sendFile(path.join(__dirname, '../public/html', 'signup.html'));
   }
   catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
@@ -81,78 +89,80 @@ const authMiddleware = async (req, res, next) => {
 
 router.get('/home', async (req, res) => {
   try {
-      res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
+    hitcount.home += 1;
+    res.cookie("hitcount", hitcount)
+    res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
   }
   catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
 
 router.post('/signup', async (req, res) => {
   try {
-      const { email, password, name } = req.body;
-  
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).send('Username already taken');
-      }
+    const { email, password, name } = req.body;
 
-  
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ name,email, password: hashedPassword });
-      await newUser.save();
-      
-      res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).send('Username already taken');
     }
+
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
+
+    res.sendFile(path.join(__dirname, '../public/html', 'login.html'));
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 router.post('/login', async (req, res) => {
   try {
-      const { email, password } = req.body;
-       
-      // Check if user exists
-      const user = await User.findOne({ email });
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!user) {
-    
-       res.json({ success: false, message: 'User does not exist' });
-      return;
-      }
-      // Check if password is correct
-       if (!isPasswordValid) { 
-       res.json({ success: false, message: 'Incorrect password' });
-      return;
-      }
-        
-        
-      const result = user.toObject();
-      delete result.password;
+    const { email, password } = req.body;
 
-      const token = jwt.sign(result, SECRET_KEY, { expiresIn: '1h'})
-     
-        res.cookie("authorization", token, { httpOnly: true })
-       res.json({ success: true, message: 'Login successful' })
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    // Check if user exists
+    const user = await User.findOne({ email });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!user) {
+
+      res.json({ success: false, message: 'User does not exist' });
+      return;
     }
- 
+    // Check if password is correct
+    if (!isPasswordValid) {
+      res.json({ success: false, message: 'Incorrect password' });
+      return;
+    }
+
+
+    const result = user.toObject();
+    delete result.password;
+
+    const token = jwt.sign(result, SECRET_KEY, { expiresIn: '1h' })
+
+    res.cookie("authorization", token, { httpOnly: true })
+    res.json({ success: true, message: 'Login successful' })
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+
 });
 
 router.post('/logout', async (req, res) => {
   try {
-        res.cookie("authorization", false )
-        res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
- 
+    res.cookie("authorization", false)
+    res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+
 });
 
 router.post('/generate', async (req, res) => {
@@ -167,7 +177,9 @@ router.post('/generate', async (req, res) => {
         },
       ],
     });
+    hitcount.generate += 1;
 
+    res.cookie("hitcount", hitcount)
     console.log(completion.data.choices[0].message.content);
 
     res.status(200).json({ result: completion.data.choices[0].message.content });
@@ -186,7 +198,7 @@ router.post('/generate', async (req, res) => {
   }
 });
 
-router.post("/text2speech", async (req, res) => {});
-  
+router.post("/text2speech", async (req, res) => { });
+
 
 module.exports = router;
