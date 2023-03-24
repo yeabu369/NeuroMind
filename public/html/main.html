@@ -28,23 +28,34 @@
                          let container = document.createElement("div");
                          let input = document.createElement("input");
                          let icon = document.createElement("i");
-                         icon.classList.add("fas", "fa-play-circle", "fa-2x");
-                         input.setAttribute("type", "button");
-                         // input.append(icon);
-                         input.setAttribute("value", "🔊 Play");
-                         input.style.backgroundColor = "#333";
-                         input.style.color = "#fff";
-                        
-                         
-                         input.onclick = function () {
+                         icon.classList.add("fas", "fa-play-circle", "fa-3x");
+                         icon.style.color='#999'
+                         let button1 = document.createElement("button");
+                         button1.appendChild(icon);
+                         button1.classList.add("play-button");
+                         let button2 = document.createElement("button");
+                         button2.classList.add("play-button");
+                         let icon2 = document.createElement("i");
+                         icon2.classList.add("fa-regular", "fa-circle-stop", "fa-3x");
+                         icon2.style.color='#999'
+                         button2.appendChild(icon2);
+                     
+                         button1.onclick = function () {
                               responsiveVoice.speak(response.result);
+
                          }
-                         
+                         button2.onclick = function () {
+                              responsiveVoice.cancel();
+                              
+                         }
+                                  
+     
                          div.innerHTML = response.result;
                          div.classList.add( "innerwidth", "response");
                          container.classList.add("w-full", "innercontainer");
                          container.append(div);
-                         container.append(input);
+                         container.append(button1);
+                         container.append(button2);
                          document.querySelector("#prompt-box").append(container);
                          document.getElementById("prompt").value = "";
                          
@@ -55,8 +66,12 @@
 </head>
 
 <body>
+     
+
+      <div class="area"></div>
      <nav class="main-menu">
-            <ul>
+           
+          <ul>
                 <li>
                     <a href="/home">
                         <i class=" fa fa-regular fa-message fa-2x"></i>
@@ -68,6 +83,7 @@
                 </li>
                
             </ul>
+            
 
             <ul class="logout">
                 <li>
@@ -80,12 +96,12 @@
                 </li>  
             </ul>
         </nav>
-
+ 
      <section id="prompt-box" class="container">
           <div class="w-full prompt-box">
                
                <textarea name="prompt" id="prompt" cols="140" rows="4" placeholder="Anything here ..."></textarea>
-               <button onclick="generatePrompt();">Send</button>
+               <button class="btn" onclick="generatePrompt();">Send</button>
           </div>
           
      </section>
