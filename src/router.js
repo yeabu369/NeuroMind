@@ -147,7 +147,6 @@ router.post('/login', async (req, res) => {
 
     res.cookie("authorization", token, { httpOnly: true })
     res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
- 
  //   res.json({ success: true, message: 'Login successful' })
   } catch (error) {
     console.error(error);
@@ -156,16 +155,17 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.post('/logout', async (req, res) => {
+router.get('/logout', async (req, res) => {
   try {
     res.cookie("authorization", false)
-    res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
+    res.redirect('/');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 
 });
+
 
 router.post('/generate', async (req, res) => {
   try {

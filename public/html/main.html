@@ -25,20 +25,28 @@
                          console.log(response);
                          // append the response.result before the textfield
                          let div = document.createElement("div");
+                         let container = document.createElement("div");
                          let input = document.createElement("input");
+                         let icon = document.createElement("i");
+                         icon.classList.add("fas", "fa-play-circle", "fa-2x");
                          input.setAttribute("type", "button");
+                         // input.append(icon);
                          input.setAttribute("value", "🔊 Play");
                          input.style.backgroundColor = "#333";
                          input.style.color = "#fff";
+                        
                          
                          input.onclick = function () {
                               responsiveVoice.speak(response.result);
                          }
                          
                          div.innerHTML = response.result;
-                         div.classList.add("border", "w-full", "response");
-                         document.querySelector("#prompt-box").append(div);
-                         div.append(input);
+                         div.classList.add( "innerwidth", "response");
+                         container.classList.add("w-full", "innercontainer");
+                         container.append(div);
+                         container.append(input);
+                         document.querySelector("#prompt-box").append(container);
+                         document.getElementById("prompt").value = "";
                          
                     }
                });
@@ -47,25 +55,43 @@
 </head>
 
 <body>
-     <nav class="border sidebar">
+     <nav class="main-menu">
+            <ul>
+                <li>
+                    <a href="/home">
+                        <i class=" fa fa-regular fa-message fa-2x"></i>
+                        <span class="nav-text">
+                             New chat
+                        </span>
+                    </a>
+                  
+                </li>
+               
+            </ul>
 
-     </nav>
+            <ul class="logout">
+                <li>
+                   <a href="/logout">
+                         <i class="fa fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                            Logout
+                        </span>
+                    </a>
+                </li>  
+            </ul>
+        </nav>
 
      <section id="prompt-box" class="container">
           <div class="w-full prompt-box">
-               <textarea name="prompt" id="prompt" cols="100" rows="4" placeholder="Anything here ..."></textarea>
+               
+               <textarea name="prompt" id="prompt" cols="140" rows="4" placeholder="Anything here ..."></textarea>
                <button onclick="generatePrompt();">Send</button>
           </div>
+          
      </section>
 
 
-     <!-- <div class="container">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-     </div> -->
-
+    
 
 
 </body>
