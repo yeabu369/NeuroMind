@@ -158,11 +158,11 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.post('/logout', async (req, res) => {
+
+router.get('/logout', async (req, res) => {
   try {
     res.cookie("authorization", false)
-    res.redirect('/home');
-   // res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
+    res.redirect('/');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -207,3 +207,6 @@ router.post("/text2speech", async (req, res) => { });
 
 
 module.exports = router;
+
+
+
