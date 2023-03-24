@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
-const cookieParser = require("cookie-parser");
 const User = require('../models/user');
 const { Configuration, OpenAIApi } = require("openai");
+const { access } = require('fs');
 
 require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -23,6 +23,7 @@ const hitcount = {
   landing: 0,
   generate: 0,
 }
+
 
 router.use(express.json());
 
@@ -59,33 +60,31 @@ router.get('/signup', async (req, res) => {
   }
 });
 
-
 const checkAuth = (req, res, next) => {
   
-  if (req.cookies && req.cookies.authorization) {
-
-  const token = req.cookies.authorization;
-  if (!token) {
-    return res.redirect('/login');
-  }
-  try {
-    const decodedToken = jwt.verify(token, SECRET_KEY);
-    req.user = decodedToken;
-    next();
-  } catch (err) {
-    return res.redirect('/login');
-  }}
-  else {
+  if (req.cookies && req.cookies.authorization) { 
+    const token = req.cookies.authorization;
+    if (!token) {
+      return res.redirect('/login');
+    }
+    try {
+      const decodedToken = jwt.verify(token, SECRET_KEY);
+     req.user = decodedToken; // Set the req.user property to the decoded token
+      next();
+    } catch (err) {
+      return res.redirect('/login');
+    }
+  } else {
     return res.status(401).redirect('/login');
-    
   }
+}
 
-};
 
 router.get('/home',checkAuth, async (req, res) => {
-  try {
+ try {
     hitcount.home += 1;
      res.cookie("hitcount", hitcount )
+     console.log("home")
     res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
   }
   catch (error) {
@@ -144,9 +143,13 @@ router.post('/login', async (req, res) => {
     delete result.password;
 
     const token = jwt.sign(result, SECRET_KEY, { expiresIn: '1h' })
+ 
+    req.cookies = {authorization: token}
+    
 
-    res.cookie("authorization", token, { httpOnly: true })
-    res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
+     res.cookie("authorization", token, { httpOnly: true })
+    //res.sendFile(path.join(__dirname, '../public/html', 'main.html'));
+     res.redirect('/home');
  //   res.json({ success: true, message: 'Login successful' })
   } catch (error) {
     console.error(error);
@@ -155,17 +158,17 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.get('/logout', async (req, res) => {
+router.post('/logout', async (req, res) => {
   try {
     res.cookie("authorization", false)
-    res.redirect('/');
+    res.redirect('/home');
+   // res.sendFile(path.join(__dirname, '../public/html', 'index.html'));
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 
 });
-
 
 router.post('/generate', async (req, res) => {
   try {
